@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NGDR cloud budget: what a ₹ sanction buys over 5 to 10 years</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF1EE; --panel:#F8FAF8; --ink:#1E2A31; --muted:#56646C; --rule:#CBD3CF; --accent:#2F5D8C; --warn:#8A5A12; --warnbg:#F6EBD2;
+  --t0:#4A5A66; --t1:#6B8F71; --t2:#3F7CAC; --t3:#C9A227; --sup:#B07A5A; --tax:#9EA3A0;
+  --serif:"Source Serif 4", Georgia, serif; --sans:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#151B1F; --panel:#1D252A; --ink:#E4E9E6; --muted:#A1ADB3; --rule:#34414A; --accent:#8DB6E0; --warn:#E3B868; --warnbg:#2C2618;
+  --t0:#7A8D9B; --t1:#7FA886; --t2:#4F8FC2; --t3:#D4AE38; --sup:#C9926F; --tax:#7D8380;}}
+:root[data-theme="dark"]{--paper:#151B1F; --panel:#1D252A; --ink:#E4E9E6; --muted:#A1ADB3; --rule:#34414A; --accent:#8DB6E0; --warn:#E3B868; --warnbg:#2C2618;
+  --t0:#7A8D9B; --t1:#7FA886; --t2:#4F8FC2; --t3:#D4AE38; --sup:#C9926F; --tax:#7D8380;}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--sans)}
+.wrap{max-width:1120px;margin:0 auto;padding:40px 24px 64px}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:700;line-height:1.15;margin:0}
+h1{font-size:clamp(30px,4.4vw,46px);max-width:20ch}
+h2{font-size:clamp(24px,2.8vw,31px);margin-bottom:8px}
+p{margin:0 0 12px;max-width:70ch}
+.lede{color:var(--muted);font-size:18px;margin-top:14px}
+.num{font-variant-numeric:tabular-nums}
+section{padding-top:56px}
+.sub{color:var(--muted);margin-bottom:20px}
+.jump{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-size:15px}
+.jump a{color:var(--accent);text-underline-offset:3px}
+
+/* one-minute */
+.minute{margin-top:30px;background:var(--panel);border:1px solid var(--rule);border-left:6px solid var(--accent);border-radius:10px;padding:22px 24px}
+.minute h2{font-size:24px}
+.minute ol{margin:10px 0 0;padding-left:22px}
+.minute li{margin:8px 0;max-width:72ch}
+
+/* tiers ladder */
+.ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:8px;border:1px solid var(--rule);border-radius:10px;overflow:hidden;background:var(--panel)}
+.rung{padding:18px;border-left:1px solid var(--rule);position:relative}
+.rung:first-child{border-left:0}
+.rung::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--c)}
+.rung .amt{font-family:var(--serif);font-size:30px;font-weight:700;line-height:1.1;margin-top:6px}
+.rung .nm{font-weight:700;margin-top:4px}
+.rung p{font-size:15px;color:var(--muted);margin:6px 0 0}
+.rung .like{font-size:14.5px;margin-top:8px;font-style:italic}
+
+/* slider */
+.slider-box{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:20px 22px}
+.slider-box label{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-weight:700}
+.slider-box output{font-family:var(--serif);font-size:30px}
+input[type=range]{width:100%;accent-color:var(--accent);margin:10px 0 4px}
+.ticks{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.stack{display:flex;height:46px;border:1px solid var(--ink);border-radius:4px;overflow:hidden;margin-top:18px}
+.stack div{height:100%;transition:width .3s}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:14px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.twin{display:grid;grid-template-columns:1.4fr 1fr;gap:18px 32px}
+.perline{margin-top:16px;padding:12px 14px;background:var(--paper);border-radius:8px;font-size:17px}
+.perline b{font-family:var(--serif);font-size:22px}
+.growth{margin-top:12px;font-size:15px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.growth select{font:inherit;font-size:15px;padding:5px 8px;border:1px solid var(--rule);border-radius:8px;background:var(--panel);color:var(--ink)}
+@media (max-width:700px){.twin{grid-template-columns:1fr}}
+.fitline{margin-top:14px;font-size:16px}
+.fitline b{font-family:var(--serif);font-size:19px}
+
+/* cards */
+.tier{margin-top:44px}
+.tier-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.tier-head i{width:14px;height:14px;border-radius:3px;display:inline-block;align-self:center}
+.tier-head h3{font-size:25px}
+.tier-head span{color:var(--muted);font-size:15px}
+.tier>p{color:var(--muted);margin:6px 0 14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--rule);border-top:5px solid var(--c);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:8px;transition:opacity .25s}
+.card.off{opacity:.5}
+.card .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.card h4{font-size:19px;line-height:1.25}
+.badge{font-size:12px;font-weight:700;border-radius:99px;padding:3px 9px;white-space:nowrap}
+.b-yes{background:var(--accent);color:var(--panel)}
+.b-no{background:var(--warnbg);color:var(--warn)}
+.like{background:var(--paper);border-radius:8px;padding:8px 12px;font-size:15px}
+.like b{font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);display:block}
+.lbl{font-size:12.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.card p{margin:0;font-size:15.5px}
+.tech{font-size:13.5px;color:var(--muted)}
+.card .cost{display:flex;justify-content:space-between;border-top:1px solid var(--rule);padding-top:8px;font-size:15px;margin-top:auto}
+
+/* table, cautions, glossary */
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:14px;color:var(--muted);background:var(--paper)}
+td.r,th.r{text-align:right}
+tfoot td{font-weight:700;background:var(--paper)}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--panel);margin-bottom:12px}
+.seg button{font:inherit;font-size:15px;border:0;background:transparent;color:var(--ink);padding:7px 14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--panel)}
+.caution{display:grid;gap:14px}
+.check{background:var(--warnbg);border-left:5px solid var(--warn);border-radius:6px;padding:14px 18px}
+.check h3{font-size:18px;margin-bottom:4px}
+.check p{margin:0}
+.gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0 28px}
+.gloss div{padding:12px 0;border-top:1px solid var(--rule)}
+.gloss dt{font-weight:700}
+.gloss dd{margin:2px 0 0;color:var(--muted);font-size:15.5px}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.foot{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font-size:14px;color:var(--muted)}
+@media (max-width:860px){.ladder{grid-template-columns:1fr 1fr}.rung:nth-child(3){border-left:0}.rung:nth-child(n+3){border-top:1px solid var(--rule)}}
+@media (max-width:520px){.ladder{grid-template-columns:1fr}.rung{border-left:0;border-top:1px solid var(--rule)}.rung:first-child{border-top:0}}
+@media print{.slider-box input,.jump,.seg{display:none}.card.off{opacity:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>What does more money buy for NGDR's cloud?</h1>
+  <p class="lede">A plain-language guide to the NGDR cloud budget, from today's estimate of ₹1.32 crore a year up to ₹20 crore. It is written so it can be explained to anyone, with or without an IT background.</p>
+  <nav class="jump" aria-label="Sections"><a href="#minute">One-minute summary</a><a href="#ladder">The four levels</a><a href="#slider">Try a budget</a><a href="#items">Each improvement explained</a><a href="#split">How the money is split</a><a href="#cautions">Before asking for more</a><a href="#glossary">Word list</a></nav>
+</header>
+
+<div class="minute" id="minute">
+  <h2>The one-minute explanation</h2>
+  <p style="color:var(--muted);margin:4px 0 0">Useful as speaking notes.</p>
+  <ol>
+    <li><b>Think of NGDR's cloud as a rented office building for GSI's data.</b> Instead of buying computers, GSI rents computing space from Amazon Web Services (AWS) and pays a monthly bill.</li>
+    <li><b>Today's plan, about ₹1.32 crore a year, keeps the lights on.</b> The website runs and data can be uploaded and downloaded. But there is no spare building if disaster strikes, little room to grow, and no AI.</li>
+    <li><b>Every extra rupee should buy something specific.</b> This guide lists 17 improvements in order of importance, with the reason for each.</li>
+    <li id="minuteTiers"></li>
+    <li><b>A sanction is spread over several years, so the yearly amount is what matters.</b> ₹20 crore over 10 years is ₹2 crore a year; the same ₹20 crore over 5 years is ₹4 crore a year and pays for much more.</li>
+    <li><b>More money is not automatically better.</b> The amount should be decided by how much NGDR is actually used, which is what GSI has asked BISAG-N to report.</li>
+  </ol>
+</div>
+
+<section id="ladder">
+  <h2>Four levels of spending</h2>
+  <p class="sub">Each level includes everything in the levels before it. Amounts are per year; the grey line shows what that would add up to over the period chosen below.</p>
+  <div class="ladder" id="ladderBox"></div>
+</section>
+
+<section id="slider">
+  <h2>Try a budget</h2>
+  <p class="sub">Set the total money sanctioned and how many years it must cover. Improvements are added in order of importance until the yearly budget runs out; anything that doesn't fit is greyed out further down.</p>
+  <div class="slider-box">
+    <div class="twin">
+      <div>
+        <label for="tot">Total sanction, whole period <output id="totOut" class="num">₹20.0 crore</output></label>
+        <input type="range" id="tot" min="1.5" max="20" step="0.5" value="20">
+        <div class="ticks num"><span>₹1.5 cr</span><span>₹5 cr</span><span>₹10 cr</span><span>₹15 cr</span><span>₹20 cr</span></div>
+      </div>
+      <div>
+        <label for="yrs">Period <output id="yrsOut" class="num">8 years</output></label>
+        <input type="range" id="yrs" min="5" max="10" step="1" value="8">
+        <div class="ticks num"><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+      </div>
+    </div>
+    <div class="perline num" id="perline"></div>
+    <div class="growth"><label for="grw">Allow for yearly cost growth (data grows, prices change):</label>
+      <select id="grw"><option value="0">0% a year</option><option value="0.03">3% a year</option><option value="0.05" selected>5% a year</option><option value="0.08">8% a year</option></select></div>
+    <div class="stack" id="stack" aria-label="How the yearly budget is split"></div>
+    <div class="legend" id="legend"></div>
+    <div class="fitline num" id="fitline" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="items">
+  <h2>Each improvement, explained</h2>
+  <p class="sub">Every card says what improves, why it matters, and gives an everyday comparison you can use when explaining it. The technical name is included for discussions with BISAG-N. Costs are rough planning figures, not quotes.</p>
+  <div id="tiers"></div>
+</section>
+
+<section id="split">
+  <h2>How the money is split</h2>
+  <div class="seg" id="splitSeg" role="group" aria-label="Budget level"></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Part of the budget</th><th>What it pays for</th><th class="r">Per month</th><th class="r">Per year</th></tr></thead>
+    <tbody id="splitBody"></tbody>
+    <tfoot><tr><td colspan="2">Total</td><td class="r num" id="splitM"></td><td class="r num" id="splitY"></td></tr></tfoot>
+  </table></div>
+</section>
+
+<section id="cautions">
+  <h2>Before asking for more money</h2>
+  <p class="sub">Four points that will make any budget proposal stronger, and that others are likely to ask about.</p>
+  <div class="caution">
+    <div class="check"><h3>A longer period means less money each year</h3><p>A fixed sanction divided over more years lowers what can be funded annually. ₹20 crore over 5 years covers roughly twice as much each year as the same amount over 10 years. If the period is long, the sanction has to be larger.</p></div>
+    <div class="check"><h3>Buy for real use, not for possible use</h3><p>Computers and bandwidth that sit idle still cost money, and audits will ask why. BISAG-N's figures on how busy the current servers are, how many people use NGDR at once, and how much data moves each day should decide the level chosen.</p></div>
+    <div class="check"><h3>Committing for 1 to 3 years costs much less</h3><p>The current estimate uses pay-as-you-go prices, like paying a daily hotel rate for a flat you will live in for years. Committing to 1 or 3 years for the steady part of the workload lowers the price considerably, so the same budget buys more.</p></div>
+    <div class="check"><h3>Data should stay in India</h3><p>The prices in the estimate appear to be for AWS's US locations. Government data is generally expected to be stored in India, so the estimate should be re-priced for AWS's Mumbai and Hyderabad locations. Every figure on this page would shift with that.</p></div>
+    <div class="check"><h3>Money alone doesn't make it work</h3><p>AI tools, better search and new services also need people to prepare data, check results and run the system. Part of any increase may be better spent on skilled staff at BISAG-N or GSI than on more cloud services.</p></div>
+  </div>
+</section>
+
+<section id="glossary">
+  <h2>Word list</h2>
+  <p class="sub">The few technical words that come up, in plain language.</p>
+  <dl class="gloss">
+    <div><dt>Cloud / AWS</dt><dd>Renting computers, storage and internet capacity from a large provider (here, Amazon Web Services) instead of buying and running them yourself.</dd></div>
+    <div><dt>Server</dt><dd>A computer that runs the website or database for many users at once. In the cloud it is rented by the hour.</dd></div>
+    <div><dt>Region</dt><dd>A city where AWS has its data centres, such as Mumbai or Hyderabad. Using two regions means having two separate locations.</dd></div>
+    <div><dt>TB (terabyte)</dt><dd>A measure of data size: 1 TB is 1,024 GB, roughly the space of 250,000 phone photos.</dd></div>
+    <div><dt>Bandwidth / downloads</dt><dd>How much data travels between NGDR and its users. AWS charges for data going out to users, not for data coming in.</dd></div>
+    <div><dt>Backup vs disaster recovery</dt><dd>A backup is a spare copy of the files. Disaster recovery is a spare, ready-to-run system, so the website itself can keep working.</dd></div>
+    <div><dt>GPU</dt><dd>A specialised processor needed to train and run AI models quickly. Ordinary servers are far too slow for this work.</dd></div>
+    <div><dt>AWS support plan</dt><dd>A paid helpline from AWS. Higher plans answer faster when something breaks.</dd></div>
+    <div><dt>GST</dt><dd>Goods and Services Tax at 18%, added on top of the AWS bill and support.</dd></div>
+  </dl>
+</section>
+
+<p class="foot">Based on the “Estimated AWS Monthly Cost” document (AWS services $8,861.07 a month; ₹1.32 crore a year with Business support and GST at ₹95.82 per US dollar) and the NGDR infrastructure questionnaire sent to BISAG-N. Improvement costs are rough planning figures, not AWS quotes. AWS support pricing (Enterprise On-Ramp: the greater of $5,500 or 10% of monthly spend) should be confirmed with AWS.</p>
+</div>
+
+<script>
+(function(){
+const FX=95.82, BASE=8861.07;
+const TIERS={
+ 0:{name:"Keep it running",color:"--t0",short:"Today's estimate",intro:"",like:"A rented office with the basics."},
+ 1:{name:"Make it safe",color:"--t1",short:"Level 1",intro:"Protects NGDR's data and keeps the website available if something goes wrong. These are the essentials.",like:"Fire exits, locks, CCTV and a spare office."},
+ 2:{name:"Make it better",color:"--t2",short:"Level 2",intro:"A faster, easier and smarter NGDR: better search, AI help with old reports, and quick support from AWS.",like:"A modern library with a catalogue and research staff."},
+ 3:{name:"Make it bigger",color:"--t3",short:"Level 3",intro:"Expands NGDR into a larger GSI-wide platform. Only worth funding with a clear plan and proven demand.",like:"Opening new branches and a research lab."}
+};
+const ITEMS=[
+ {id:"bak",tier:1,p:1,usd:1500,title:"A spare copy of all data, in another city",
+  what:"All files, reports and datasets are copied regularly to a second location in India. Today only the databases are backed up.",
+  why:"Decades of exploration reports and survey data cannot be recreated if they are lost or damaged.",
+  like:"Keeping photocopies of every file in a different building.",tech:"AWS Backup, cross-region replication, Glacier archive storage"},
+ {id:"sec",tier:1,p:2,usd:4500,title:"Stronger security, and records kept as the law requires",
+  what:"Better protection against hacking and attempts to crash the website, and activity records kept for 180 days in India.",
+  why:"National portals are common targets. CERT-In, India's cyber-security agency, requires these records to be kept for 180 days.",
+  like:"Security guards, CCTV and a visitor register kept for six months.",tech:"AWS Shield Advanced, WAF managed rules, Macie, Inspector, log retention"},
+ {id:"stg",tier:1,p:3,usd:3000,title:"A practice copy for testing changes",
+  what:"A smaller copy of NGDR where BISAG-N tries out updates before they go on the live website.",
+  why:"Testing on the live website risks breaking it for all users every time something is changed.",
+  like:"A rehearsal before the actual performance.",tech:"Staging and test environments"},
+ {id:"s3",tier:1,p:4,usd:3500,title:"Room for data to keep growing",
+  what:"Space for about 150 TB of data, with old, rarely used data moved automatically to cheaper storage.",
+  why:"The estimate allows 25 TB, but also expects about 15 TB of new uploads every month. The space would run out within months.",
+  like:"Adding shelves as the library grows, and moving old files to the basement.",tech:"S3 capacity with Intelligent-Tiering / Glacier"},
+ {id:"dr",tier:1,p:5,usd:6000,title:"A standby website in another city",
+  what:"A second, smaller copy of NGDR kept ready in another Indian city, able to take over within hours.",
+  why:"If AWS has a major problem in one city, NGDR would otherwise stay offline until it is fixed.",
+  like:"A second office ready to open if the first one is flooded.",tech:"Warm-standby disaster recovery in a second AWS region"},
+ {id:"obs",tier:2,p:6,usd:1500,title:"Regular health checks on the website",
+  what:"Continuous tracking of how fast pages load for real users, and alerts when errors appear.",
+  why:"Problems are caught before users complain, and there is evidence to judge how well the website is being run.",
+  like:"Regular medical check-ups instead of waiting until you feel ill.",tech:"CloudWatch RUM, X-Ray, extended monitoring"},
+ {id:"cap",tier:2,p:7,usd:8000,title:"Extra capacity on busy days",
+  what:"The system adds computers automatically when many people use it and removes them when it is quiet. Allows up to 3 TB of downloads a day instead of 1 TB.",
+  why:"Usage jumps around mineral auctions, data releases and reviews. The site stays fast then without paying for spare capacity all year.",
+  like:"Opening extra counters when the queue is long, and closing them when it is short.",tech:"EC2 Auto Scaling, higher CloudFront capacity"},
+ {id:"srch",tier:2,p:8,usd:3000,title:"Search inside reports and on the map",
+  what:"Users can search the text inside reports and filter by place, mineral, rock type and year.",
+  why:"Finding the right report takes seconds instead of browsing long lists. This is the most common difficulty with data portals.",
+  like:"A library catalogue instead of walking along every shelf.",tech:"Amazon OpenSearch Service"},
+ {id:"sup",tier:2,p:9,usd:0,support:true,title:"Faster help from AWS when things break",
+  what:"A higher AWS helpline plan: a response within 30 minutes when the website is down, plus regular expert reviews.",
+  why:"The current plan answers within an hour. For a national portal presented at DG level, faster help means shorter outages.",
+  like:"A priority service contract instead of a standard one.",tech:"AWS Enterprise On-Ramp support"},
+ {id:"ocr",tier:2,p:10,usd:6000,title:"AI that reads old scanned reports",
+  what:"AI reads scanned reports, including tables and maps, and turns them into searchable data. Users can also ask questions in plain language and get answers with references.",
+  why:"Much of GSI's knowledge sits in old scanned reports that no one can search today. This also speeds up annotation work.",
+  like:"A tireless assistant who reads every old file and types it up.",tech:"Amazon Textract, Amazon Bedrock (retrieval-based Q&A)"},
+ {id:"geo",tier:2,p:11,usd:5000,title:"A separate workspace for heavy map processing",
+  what:"Separate computers for processing satellite images and large survey datasets, and ready-made map tiles so maps open quickly.",
+  why:"Heavy map work no longer slows down the website, and supports map layers for PM GatiShakti.",
+  like:"A separate workshop, so heavy work doesn't block the front desk.",tech:"AWS Batch, map-tile caching"},
+ {id:"dx",tier:2,p:12,usd:1500,title:"A private line to GSI offices",
+  what:"A dedicated connection between GSI's data centre and AWS, instead of going over the public internet.",
+  why:"Large uploads from GSI offices become faster and more reliable, and data never travels over the open internet.",
+  like:"A private road instead of the public highway.",tech:"AWS Direct Connect"},
+ {id:"gpu",tier:2,p:13,usd:14500,title:"AI computers for geology models",
+  what:"Specialised computers (GPUs) to build and run AI models such as mineral prospectivity maps, geochemical anomaly detection and satellite image classification.",
+  why:"The current estimate has no such computers, so none of this is possible on it. Should only be funded for a defined AI programme.",
+  like:"Buying specialised laboratory instruments for a new line of research.",tech:"GPU instances (e.g. G/P families)"},
+ {id:"ai2",tier:3,p:14,usd:25000,title:"A full AI research programme",
+  what:"Several times more AI computing, to train larger models on all of GSI's data and run them for many users at once.",
+  why:"Makes NGDR a centre for AI-driven mineral exploration, not just a data store. Needs a dedicated team and a clear research plan.",
+  like:"Going from a few lab instruments to a fully equipped research lab.",tech:"Large GPU clusters, model training pipelines"},
+ {id:"aa",tier:3,p:15,usd:20000,title:"Two live websites running at the same time",
+  what:"Instead of a standby copy, NGDR runs fully in two cities at once, each serving users.",
+  why:"Even a major failure in one city causes no visible outage. Users are also served from the nearer location.",
+  like:"Two fully staffed offices both open every day, instead of one office and a spare.",tech:"Active-active multi-region deployment"},
+ {id:"dl",tier:3,p:16,usd:12000,title:"Many more downloads",
+  what:"Capacity for about 10 TB of downloads a day, around ten times today's estimate.",
+  why:"Needed only if NGDR opens up large datasets, such as full satellite archives, to universities, industry and the public.",
+  like:"A much bigger delivery fleet for a much bigger customer base.",tech:"CloudFront at high volume, larger origin capacity"},
+ {id:"oth",tier:3,p:17,usd:10000,title:"Bring other GSI systems onto the same platform",
+  what:"Move other GSI portals and databases into the same cloud setup, sharing security, backup and support.",
+  why:"One well-run platform can cost less overall than several separate ones, and makes data easier to combine.",
+  like:"Moving several departments into one shared building.",tech:"Multi-application landing zone"}
+];
+const $=id=>document.getElementById(id);
+const bizSup=S=>Math.max(100,Math.min(S,10000)*0.10+Math.max(0,Math.min(S,80000)-10000)*0.07);
+const entSup=S=>Math.max(5500,S*0.10);
+const annual=(S,ent)=>{const sup=ent?entSup(S):bizSup(S);return {sup,monthUsd:(S+sup)*1.18,yearInr:(S+sup)*1.18*FX*12}};
+const cr=v=>"₹"+(v/1e7).toFixed(2)+" crore";
+const money=v=>v>=1e7?cr(v):"₹"+(v/1e5).toFixed(2)+" lakh";
+
+function plan(budgetCr,gf){
+  const B=budgetCr*1e7; gf=gf||1; let S=BASE, ent=false; const funded=new Set();
+  [...ITEMS].sort((a,b)=>a.p-b.p).forEach(it=>{
+    const S2=S+it.usd, e2=ent||!!it.support;
+    if(annual(S2,e2).yearInr*gf<=B+1){S=S2;ent=e2;funded.add(it.id)}
+  });
+  return {S,ent,funded,...annual(S,ent)};
+}
+function planTo(tier){ // everything up to and including tier
+  let S=BASE, ent=false; const funded=new Set();
+  ITEMS.filter(i=>i.tier<=tier).forEach(i=>{S+=i.usd;if(i.support)ent=true;funded.add(i.id)});
+  return {S,ent,funded,...annual(S,ent)};
+}
+const TIERCOST=[0,1,2,3].map(t=>planTo(t).yearInr);
+
+function renderIntro(){
+  const r=v=>"₹"+(Math.round(v/1e6)/10)+" crore";
+  $("minuteTiers").innerHTML=`<b>Roughly: about ${r(TIERCOST[1])} makes NGDR safe, about ${r(TIERCOST[2])} makes it a modern platform with AI, and about ${r(TIERCOST[3])} expands it into a larger GSI-wide platform.</b>`;
+  $("ladderBox").innerHTML=[0,1,2,3].map(t=>`<div class="rung" style="--c:var(${TIERS[t].color})"><div style="font-size:14px;color:var(--muted)">${TIERS[t].short}</div><div class="amt num">≈ ${r(TIERCOST[t])}</div><div class="nm">${TIERS[t].name}</div><p>${t===0?"Website runs, data goes in and out. No spare site, little room to grow, no AI.":TIERS[t].intro}</p><div class="like">Like: ${TIERS[t].like}</div><div class="num" data-tot="${t}" style="font-size:14px;color:var(--muted);margin-top:6px"></div></div>`).join("");
+}
+
+function renderCards(){
+  $("tiers").innerHTML=[1,2,3].map(t=>{
+    const its=ITEMS.filter(i=>i.tier===t);
+    return `<div class="tier"><div class="tier-head"><i style="background:var(${TIERS[t].color})"></i><h3>${TIERS[t].short}: ${TIERS[t].name}</h3><span class="num">up to about ${cr(TIERCOST[t])} a year in total</span></div><p>${TIERS[t].intro}</p><div class="cards">`+
+    its.map(i=>`<article class="card" id="c-${i.id}" style="--c:var(${TIERS[t].color})"><div class="top"><h4>${i.p}. ${i.title}</h4><span class="badge" id="b-${i.id}"></span></div>
+      <div class="lbl">What improves</div><p>${i.what}</p>
+      <div class="lbl">Why it matters</div><p>${i.why}</p>
+      <div class="like"><b>In everyday terms</b>${i.like}</div>
+      <div class="tech">Technical name: ${i.tech}</div>
+      <div class="cost num"><span>Rough cost</span><b id="k-${i.id}"></b></div></article>`).join("")+`</div></div>`}).join("");
+}
+
+function update(){
+  const tot=+$("tot").value, yrs=+$("yrs").value, g=+$("grw").value;
+  const b=tot/yrs, gf=Math.pow(1+g,yrs-1), P=plan(b,gf);
+  $("totOut").textContent="₹"+tot.toFixed(1)+" crore";
+  $("yrsOut").textContent=yrs+" years";
+  $("perline").innerHTML=`₹${tot.toFixed(1)} crore over ${yrs} years is <b>${cr(b*1e7)} a year</b>, about ${money(b*1e7/12)} a month.`
+    +(g?` Allowing ${(g*100).toFixed(0)}% growth a year, the plan is sized to fit the most expensive year (about ${(gf).toFixed(2)}× year-1 cost), so it stays affordable throughout.`:"");
+  ITEMS.forEach(i=>{
+    const on=P.funded.has(i.id);
+    $("c-"+i.id).classList.toggle("off",!on);
+    const bd=$("b-"+i.id); bd.className="badge "+(on?"b-yes":"b-no"); bd.textContent=on?"Included":"Doesn't fit";
+    $("k-"+i.id).textContent=i.support?"about "+money((entSup(P.S)-bizSup(P.S))*FX*1.18)+" a month extra":money(i.usd*FX)+" a month";
+  });
+  const parts=[0,0,0,0]; parts[0]=BASE; ITEMS.forEach(i=>{if(P.funded.has(i.id))parts[i.tier]+=i.usd});
+  const segs=[[TIERS[0].short,parts[0],"--t0"],[TIERS[1].short+": "+TIERS[1].name,parts[1],"--t1"],[TIERS[2].short+": "+TIERS[2].name,parts[2],"--t2"],[TIERS[3].short+": "+TIERS[3].name,parts[3],"--t3"],["AWS support",P.sup,"--sup"],["GST",(P.S+P.sup)*0.18,"--tax"]].filter(s=>s[1]>0);
+  const spendY1=P.monthUsd, spendFinal=spendY1*gf, budM=b*1e7/12/FX;
+  const unused=Math.max(0,budM-spendFinal), all=spendFinal+unused;
+  $("stack").innerHTML=segs.map(s=>`<div title="${s[0]}" style="width:${s[1]*gf/all*100}%;background:var(${s[2]})"></div>`).join("")+(unused>1?`<div title="Not allocated" style="width:${unused/all*100}%;background:repeating-linear-gradient(45deg,transparent 0 5px,var(--rule) 5px 6px)"></div>`:"");
+  const names=segs.map(s=>`<span><i style="background:var(${s[2]})"></i>${s[0]} ${money(s[1]*FX)}/mo</span>`).join("");
+  $("legend").innerHTML=names+(unused>1?`<span><i style="background:var(--rule)"></i>Spare in the final year ${money(unused*FX)}/mo</span>`:"");
+  const n=P.funded.size;
+  const fullLevel=[3,2,1].find(t=>ITEMS.filter(i=>i.tier<=t).every(i=>P.funded.has(i.id)))||0;
+  let msg=`<b>${n} of ${ITEMS.length}</b> improvements fit. Yearly plan cost ${cr(P.yearInr)} at today's prices, ${cr(P.yearInr*gf)} in the final year, against a budget of ${cr(b*1e7)} a year. `;
+  msg+= fullLevel?`Everything up to <b>${TIERS[fullLevel].short}: ${TIERS[fullLevel].name}</b> is covered.`:(P.yearInr*gf<=b*1e7?`Enough for today's estimate, but not yet for all of ${TIERS[1].short}: ${TIERS[1].name}.`:`<b>Not enough even for today's estimate.</b> Today's plan alone costs about ${cr(annual(BASE,false).yearInr*gf)} in the final year.`);
+  const factor=g?(Math.pow(1+g,yrs)-1)/g:yrs;
+  const spare=tot-(P.yearInr/1e7)*factor;
+  if(spare>0.5) msg+=`<br><span style="color:var(--muted)">About ${cr(spare*1e7)} of the sanction stays unspent over the whole period, because the plan is kept affordable in the final year. It could fund more in the early years, a shorter period, or a smaller sanction.</span>`;
+  $("fitline").innerHTML=msg;
+  if(typeof updateLadder==="function") updateLadder(yrs);
+}
+
+function updateLadder(yrs){
+  document.querySelectorAll("[data-tot]").forEach(el=>{
+    const t=+el.dataset.tot; el.textContent="= "+cr(TIERCOST[t]*yrs)+" over "+yrs+" years";
+  });
+}
+
+let splitTier=2;
+function renderSplit(){
+  $("splitSeg").innerHTML=[1,2,3].map(t=>`<button data-t="${t}" aria-pressed="${t===splitTier}">${TIERS[t].short} (≈ ${cr(TIERCOST[t])})</button>`).join("");
+  $("splitSeg").querySelectorAll("button").forEach(b=>b.onclick=()=>{splitTier=+b.dataset.t;renderSplit()});
+  const P=planTo(splitTier), rows=[["Today's estimate","Everything in the current AWS estimate",BASE]];
+  for(let t=1;t<=splitTier;t++){const its=ITEMS.filter(i=>i.tier===t&&i.usd);rows.push([TIERS[t].short+": "+TIERS[t].name,its.map(i=>i.title).join("; "),its.reduce((a,i)=>a+i.usd,0)])}
+  rows.push(["AWS support",P.ent?"Faster (Enterprise On-Ramp) helpline":"Business helpline",P.sup]);
+  rows.push(["GST at 18%","Tax on AWS services and support",(P.S+P.sup)*0.18]);
+  $("splitBody").innerHTML=rows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td class="r num">${money(r[2]*FX)}</td><td class="r num">${money(r[2]*FX*12)}</td></tr>`).join("");
+  $("splitM").textContent=money(P.monthUsd*FX); $("splitY").textContent=cr(P.yearInr);
+}
+
+renderIntro(); renderCards(); renderSplit(); update();
+["tot","yrs","grw"].forEach(id=>$(id).addEventListener("input",update));
+})();
+</script>
+</body>
+</html>
